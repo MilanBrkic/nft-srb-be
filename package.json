@@ -1,0 +1,30 @@
+{
+  "name": "nft-srb-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "nodemon": "npx nodemon --ext ts --exec 'npm run start'",
+    "start": "npx tsc && node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MilanBrkic/nft-srb-be.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MilanBrkic/nft-srb-be/issues"
+  },
+  "homepage": "https://github.com/MilanBrkic/nft-srb-be#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
