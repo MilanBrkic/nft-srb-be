@@ -14,12 +14,14 @@ class User{
     @prop()
     email?:string;
 
-    public static async findByAddress(this: ReturnModelType<typeof User>, address: string){
-        return this.find({address}).exec();
+    public static async findByAddress(this: ReturnModelType<typeof User>, address: string):Promise<User>{
+        const user:User = await this.find({address}).exec()[0];
+        return user;
     }
 
-    public static async insert(this: ReturnModelType<typeof User>, address: string){
-        return this.create({address});
+    public static async insert(this: ReturnModelType<typeof User>, address: string):Promise<User>{
+        const user = await this.create({address});
+        return user;
     }
 
 }
