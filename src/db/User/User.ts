@@ -14,8 +14,8 @@ class User{
     @prop()
     email?:string;
 
-    public static async findByAddress(this: ReturnModelType<typeof User>, address: string):Promise<User>{
-        const user:User = await this.find({address}).exec()[0];
+    public static async findByAddress(this: ReturnModelType<typeof User>, address: string):Promise<User | undefined>{
+        const user:User = (await this.find({address}).exec())[0];
         return user;
     }
 
