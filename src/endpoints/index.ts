@@ -1,9 +1,12 @@
-import {Router} from "express";
+import {Response, Router} from "express";
 import { signIn } from "./sign-in";
+import { upload } from '../multer/multer'
+import MulterRequest from "../multer/MulterRequest";
+
 export const router = Router();
 
-router.get('/user/:id/get-all', (req, res) => {
-    console.log("Hola Mundo");
+router.post('/mint', upload.single('image'),(req: MulterRequest, res: Response) => {
+    console.log(`file: ${req.file}`);
     res.status(200).send("Hola Mundo");
   });
   

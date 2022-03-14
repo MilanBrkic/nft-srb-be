@@ -13,12 +13,12 @@ export async function signIn(req:Request, res:Response){
         user = await userModel.findByAddress(address);
         if(user){
             console.log(`User logged in with address: ${user.address}`)
-            res.status(200).send({new_user:false, user});
+            res.status(200).send({new_user:false, address: user.address});
         }
         else {
             user = await userModel.insert(address);
             console.log(`User created with address: ${user.address}`)
-            res.status(201).send({new_user:true, user})
+            res.status(201).send({new_user:true, address: user.address})
         }
     } catch (error) {
         console.log(`signIn() function | Reason ${error?.stack}`)
