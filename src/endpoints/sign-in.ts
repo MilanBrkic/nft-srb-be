@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import User from "../db/User/User";
 import { userModel } from "../db/User/userModel";
 
-export async function signIn(req:Request, res:Response){
+export default async function signIn(req:Request, res:Response){
     const address = req.body.accounts[0];
     let user:User;
 
