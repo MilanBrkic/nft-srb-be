@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User from "../db/User/User";
-import { userModel } from "../db/User/userModel";
+import userModel from "../db/User/UserModel";
 
 export default async function signIn(req:Request, res:Response){
     const address = req.body.accounts[0];

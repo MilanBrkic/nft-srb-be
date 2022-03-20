@@ -2,7 +2,7 @@ import mongoose, {Mongoose} from "mongoose";
 import Constants from "../constants/Constants";
 
 class MongooseDatabase {
-    private mongoose!: Mongoose;
+    public mongoose!: Mongoose;
 
     public async connect(){
         try {
