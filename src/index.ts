@@ -3,6 +3,7 @@ import cors from 'cors';
 import { mongooseDb } from './db';
 import Constants from './constants/Constants';
 import { router } from './endpoints';
+import GoogleDriveService from './services/GoogleDriveService';
 
 
 export const app = express();
@@ -18,3 +19,5 @@ app.listen(port, () => {
 });
 
 mongooseDb.connect();
+
+GoogleDriveService.initialize();
