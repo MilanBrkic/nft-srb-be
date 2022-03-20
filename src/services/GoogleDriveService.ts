@@ -4,7 +4,7 @@ import {google, drive_v3} from "googleapis";
 
 
 export default class GoogleDriveService{
-    private static SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+    private static SCOPES = ['https://www.googleapis.com/auth/drive'];
     private static TOKEN_PATH = './token.json';
     private static drive: drive_v3.Drive;
 
@@ -35,7 +35,6 @@ export default class GoogleDriveService{
        * Get and store new token after prompting for user authorization, and then
        * execute the given callback with the authorized OAuth2 client.
        * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
-       * @param {getEventsCallback} callback The callback for the authorized client.
        */
       private static getAccessToken(oAuth2Client) {
         const authUrl = oAuth2Client.generateAuthUrl({
@@ -61,9 +60,16 @@ export default class GoogleDriveService{
         });
       }
       
+      public static async saveFile(media){
+        try {
+          const file =  await this.drive.files.create({media});
+          return file.data.id;
+        } catch (error) {
+          console.error("Message " +error?.message)
+        }
+      }
       /**
        * Lists the names and IDs of up to 10 files.
-       * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
        */
        public static listFiles() {
         this.drive.files.list({

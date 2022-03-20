@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
-import {Schema} from "mongoose";
+import mongoose, {Schema} from "mongoose";
+import imageModel from "./ImageModel";
 import User from "./User";
 
 const model = new Schema({
     address:String,
-    imagesHash: [String]
+    images: [imageModel]
 })
 
 class UserModel{
@@ -19,8 +19,8 @@ class UserModel{
         return user;
     }
 
-    public async getByImage(imageHash:string): Promise<User | null>{
-        const user =  (await this.model.find({imagesHash:{$in:imageHash}}).exec())[0];
+    public async getByImage(hash:string): Promise<User | null>{
+        const user =  (await this.model.find({'images.hash':{$in:hash}}).exec())[0];
         return user;
     }
 
@@ -28,8 +28,8 @@ class UserModel{
         return this.model.create({address});
     }
 
-    public async addAnImage(address:string, imageHash: string): Promise<User | null>{
-        return this.model.updateOne({address}, {$push:{imagesHash: imageHash}})
+    public async addAnImage(address:string, hash: string, googleId:string): Promise<User | null>{
+        return this.model.updateOne({address}, {$push:{images: {hash,googleId}}})
     }
 
 
