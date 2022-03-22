@@ -5,23 +5,18 @@ import userModel from "../db/User/UserModel";
 import User from "../db/User/User";
 import GoogleDriveService from "../services/GoogleDriveService";
 import {Duplex} from "stream";
+import NFTStorageService from "../services/NFTStorageService";
+import INFTStorageToken from "../domain/NFTStorageToken";
 
 export default async function mint(req: MulterRequest, res: Response) {
-    const buffer = req.file.buffer;
+    const {buffer, originalname, mimetype} = req.file;
     const hash = crypto.createHash('md5').update(buffer).digest('hex');
-    const stream = bufferToStream(buffer);
 
-    const media = {
-      mimeType: 'image/jpeg',
-      body: stream
-    };
-
-   
     const user: User = await userModel.getByImage(hash);
 
     if(!user){
       const address  = req.body.account;
-      await saveImageWhereNeeded(address,hash,media);
+      await saveImageWhereNeeded(address,hash,buffer, originalname, mimetype);
       res.status(200).send("Hola Mundo");
     }
     else{
@@ -30,10 +25,18 @@ export default async function mint(req: MulterRequest, res: Response) {
     }
   }
 
-  async function saveImageWhereNeeded(address:string, hash:string,media:any){
+  async function saveImageWhereNeeded(address:string, hash:string,buffer:any, originalname:string,mimetype:string){
+    const stream = bufferToStream(buffer);
+    const media = {
+      mimeType: 'image/jpeg',
+      body: stream
+    };
+
     const googleId = await GoogleDriveService.saveFile(media);
+    const nftStorageToken: INFTStorageToken = await NFTStorageService.storeNFT(buffer,originalname,"test", mimetype);
     await userModel.addAnImage(address, hash, googleId);
-    console.log(`Image ${hash} minted | Address ${address}`)
+
+    console.log(`Image ${hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Address ${address}`)
   }
   function bufferToStream(myBuuffer) {
     let tmp = new Duplex();
