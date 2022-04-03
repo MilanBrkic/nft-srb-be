@@ -88,5 +88,15 @@ export default class GoogleDriveService{
           }
         });
       }
+
+      public static async  getFile(googleId:string){
+        try {
+          const gdriveImage = await this.drive.files.get({fileId:googleId, alt:"media"});
+          console.log(`Image ${JSON.stringify(gdriveImage)}`)
+        } catch (error) {
+          console.error(`getFile | Reason: ${error.message}`)
+        }
+
+      }
       
 }

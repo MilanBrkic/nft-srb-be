@@ -13,7 +13,6 @@ class UserModel{
         this.model = mongoose.model('users',model)
     }    
     
-    
     public async findByAddress(address: string):Promise<User | null>{
         const user = (await this.model.find({address}).exec())[0];
         return user;

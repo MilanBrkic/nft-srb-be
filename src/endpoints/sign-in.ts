@@ -1,8 +1,10 @@
 import {Request, Response} from "express";
 import User from "../db/User/User";
 import userModel from "../db/User/UserModel";
+import GoogleDriveService from "../services/GoogleDriveService";
 
 export default async function signIn(req:Request, res:Response){
+    GoogleDriveService.getFile('1HKL2Gtq65a0D1_9zK5nSE3kkAvoZhcbY');
     const address = req.body.accounts[0];
     let user:User;
 
