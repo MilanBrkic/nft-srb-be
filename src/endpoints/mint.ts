@@ -34,9 +34,9 @@ export default async function mint(req: MulterRequest, res: Response) {
 
     const googleId = await GoogleDriveService.saveFile(media);
     const nftStorageToken: INFTStorageToken = await NFTStorageService.storeNFT(buffer,originalname,"test", mimetype);
-    await userModel.addAnImage(address, hash, googleId);
+    await userModel.addAnImage(address, hash, googleId, nftStorageToken.ipnft);
 
-    console.log(`Image ${hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Address ${address}`)
+    console.log(`Image ${hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Google Id: ${googleId} Address ${address}`)
   }
   function bufferToStream(myBuuffer) {
     let tmp = new Duplex();

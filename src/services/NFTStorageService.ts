@@ -18,9 +18,4 @@ export default class NFTStorageService{
         })
     }
 
-    // private async fileFromPath(filePath) {
-    //     const content = await fs.promises.readFile(filePath)
-    //     const type = mime.lookup(filePath)
-    //     return new File([content], path.basename(filePath), { type })
-    // }
 } 

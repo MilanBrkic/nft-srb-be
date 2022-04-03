@@ -28,8 +28,8 @@ class UserModel{
         return this.model.create({address});
     }
 
-    public async addAnImage(address:string, hash: string, googleId:string): Promise<User | null>{
-        return this.model.updateOne({address}, {$push:{images: {hash,googleId}}})
+    public async addAnImage(address:string, hash: string, googleId:string, ipnft:string): Promise<User | null>{
+        return this.model.updateOne({address}, {$push:{images: {hash,googleId,ipnft}}})
     }
 
 
