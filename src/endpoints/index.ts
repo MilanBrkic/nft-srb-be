@@ -10,4 +10,4 @@ router.post('/mint', upload.single('image'), mint);
 
 router.post('/sign-in', signIn);
 
-router.get('/user/:id/images', getAllImages);
+router.get('/user/:address/images', getAllImages);

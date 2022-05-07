@@ -32,7 +32,6 @@ export default async function mint(req: MulterRequest, res: Response) {
     return res.status(404).send('Already minted');
   }
 }
-
 async function saveImageWhereNeeded(address: string, hash: string, buffer: any, originalname: string, mimetype: string) {
   const stream = bufferToStream(buffer);
   const media = {

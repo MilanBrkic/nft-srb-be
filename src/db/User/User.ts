@@ -1,6 +1,7 @@
+import Image from './Image';
+
 interface User {
   address: string;
-
-  imagesHash: string[];
+  images: Image[];
 }
 export default User;
