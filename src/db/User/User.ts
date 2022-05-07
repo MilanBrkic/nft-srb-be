@@ -1,7 +1,6 @@
+interface User {
+  address: string;
 
-interface User{
-    address: string;
-
-    imagesHash:string[];
+  imagesHash: string[];
 }
 export default User;

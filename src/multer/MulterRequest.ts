@@ -1,5 +1,5 @@
-import {Request} from 'express'
+import { Request } from 'express';
 
-export default interface MulterRequest extends Request{
-    file:any;
+export default interface MulterRequest extends Request {
+  file: any;
 }

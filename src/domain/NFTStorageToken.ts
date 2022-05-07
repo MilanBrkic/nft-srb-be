@@ -1,4 +1,4 @@
-export default interface INFTStorageToken{
-    ipnft: string;
-    url: string;
+export default interface INFTStorageToken {
+  ipnft: string;
+  url: string;
 }
