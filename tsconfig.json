@@ -8,7 +8,8 @@
       "outDir": "./build",
       "rootDir": "./src",
       "experimentalDecorators":true,
-      "emitDecoratorMetadata":true
+      "emitDecoratorMetadata":true,
+      "resolveJsonModule": true
     },
     "include":["src/**/*"],
     "lib": ["es2015"]

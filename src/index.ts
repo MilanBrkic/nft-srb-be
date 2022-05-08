@@ -4,6 +4,7 @@ import { mongooseDb } from './db';
 import Constants from './constants/Constants';
 import { router } from './endpoints';
 import GoogleDriveService from './services/GoogleDriveService';
+import NftSrb from './nftsrb';
 
 export const app = express();
 const port = Number(Constants.SERVER_PORT);
@@ -14,9 +15,11 @@ app.use(express.json());
 app.use(router);
 
 app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+  return console.log(`NftSrb server is listening on port ${port}`);
 });
 
 mongooseDb.connect();
 
-GoogleDriveService.initialize();
+GoogleDriveService.init();
+
+NftSrb.init();

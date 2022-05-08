@@ -7,7 +7,7 @@ export default class GoogleDriveService {
   private static TOKEN_PATH = './token.json';
   private static drive: drive_v3.Drive;
 
-  public static initialize() {
+  public static init() {
     // Load client secrets from a local file.
     fs.readFile('./credentials.json', (err, content) => {
       if (err) return console.log('Error loading client secret file:', err);
