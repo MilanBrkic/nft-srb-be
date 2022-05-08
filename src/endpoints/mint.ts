@@ -20,19 +20,17 @@ export default async function mint(req: MulterRequest, res: Response) {
 
   if (!user) {
     const address = req.body.account;
-    try {
-      await saveImageWhereNeeded(address, hash, buffer, originalname, mimetype);
-    } catch (error) {
-      console.log(`Error in mint | Reason: ${error.message}`);
-      return res.status(500).send('Error while minting');
-    }
-    return res.status(200).send('Hola Mundo');
+    saveImageWhereNeeded(address, hash, buffer, originalname, mimetype).catch((err) => {
+      console.error(`Error in saveImageWhereNeeded | Address: ${address} | originalname: ${originalname} | Reason: ${err.message}`);
+    });
+    return res.status(200).send('Image is minting');
   } else {
     console.log(`Image ${hash} already minted`);
     return res.status(404).send('Already minted');
   }
 }
 async function saveImageWhereNeeded(address: string, hash: string, buffer: any, originalname: string, mimetype: string) {
+  console.log(`Minting for address ${address} started`);
   const stream = bufferToStream(buffer);
   const media = {
     mimeType: 'image/jpeg',
