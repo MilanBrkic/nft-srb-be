@@ -20,3 +20,6 @@ app.listen(port, () => {
 mongooseDb.connect();
 
 GoogleDriveService.initialize();
+
+console.log(Constants.CONTRACT_ADDRESS);
+console.log(process.env['CONTRACT_ADDRESS']);
