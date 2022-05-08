@@ -1,7 +1,6 @@
 import fs from 'fs';
 import readline from 'readline';
 import { google, drive_v3 } from 'googleapis';
-import ba64 from 'ba64';
 
 export default class GoogleDriveService {
   private static SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -85,16 +84,5 @@ export default class GoogleDriveService {
         }
       }
     );
-  }
-
-  public static async getFile(googleId: string) {
-    try {
-      const gdriveImage = await this.drive.files.get({ fileId: googleId, alt: 'media' });
-      const fileContents = Buffer.from(gdriveImage.data as any);
-      fs.writeFileSync('test.jpg', fileContents, { encoding: 'base64' });
-      // console.log(`Image ${Object.keys(gdriveImage.data)}`)
-    } catch (error) {
-      console.error(`getFile | Reason: ${error.message}`);
-    }
   }
 }
