@@ -11,7 +11,7 @@ export default class NFTStorageService {
     return nftstorage.store({
       image,
       name,
-      description: `GoogleId: ${googleId}`
+      description: `Image url: ${Constants.GOOGLE_DRIVE_URL}${googleId}`
     });
   }
 }
