@@ -1,8 +1,9 @@
 import { Schema } from 'mongoose';
 
 const imageModel = new Schema({
-  hash: String,
+  md5Hash: String,
   googleId: String,
-  ipnft: String
+  ipnft: String,
+  transactionHash: String
 });
 export default imageModel;

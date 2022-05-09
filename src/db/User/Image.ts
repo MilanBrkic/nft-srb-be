@@ -1,5 +1,6 @@
 export default class Image {
-  hash: string;
+  md5Hash: string;
   googleId: string;
   ipnft: string;
+  transactionHash: string;
 }

@@ -18,8 +18,8 @@ class UserModel {
     return user;
   }
 
-  public async getByImage(hash: string): Promise<User | null> {
-    const user = (await this.model.find({ 'images.hash': { $in: hash } }).exec())[0];
+  public async getByImage(md5Hash: string): Promise<User | null> {
+    const user = (await this.model.find({ 'images.md5Hash': { $in: md5Hash } }).exec())[0];
     return user;
   }
 
@@ -27,8 +27,14 @@ class UserModel {
     return this.model.create({ address });
   }
 
-  public async addAnImage(address: string, hash: string, googleId: string, ipnft: string): Promise<User | null> {
-    return this.model.updateOne({ address }, { $push: { images: { hash, googleId, ipnft } } });
+  public async addAnImage(
+    address: string,
+    md5Hash: string,
+    googleId: string,
+    ipnft: string,
+    transactionHash: string
+  ): Promise<User | null> {
+    return this.model.updateOne({ address }, { $push: { images: { md5Hash, googleId, ipnft, transactionHash } } });
   }
 }
 
