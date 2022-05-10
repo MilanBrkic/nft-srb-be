@@ -17,44 +17,40 @@ export default async function mint(req: MulterRequest, res: Response) {
   const { buffer, originalname, mimetype } = req.file;
   const md5Hash = crypto.createHash('md5').update(buffer).digest('hex');
 
-  if (Lock.contains(md5Hash)) {
-    console.log(`Image: ${md5Hash} currently minting`);
-    return res.status(400).send('Image currently minting');
-  }
-
   const user: User = await userModel.getByImage(md5Hash);
 
   if (!user) {
     const address = req.body.account;
-    Lock.lockImage(md5Hash);
-    saveImageWhereNeeded(address, md5Hash, buffer, originalname, mimetype).catch((err) => {
-      console.error(`Error in saveImageWhereNeeded | Address: ${address} | originalname: ${originalname} | Reason: ${err.message}`);
-    });
+    const ipnft = req.body.ipnft;
+    const url = req.body.url;
 
-    return res.status(200).send('Image is minting');
+    console.log(ipnft);
+    console.log(url);
+    // saveImageWhereNeeded(address, md5Hash, buffer, originalname, mimetype).catch((err) => {
+    //   console.error(`Error in saveImageWhereNeeded | Address: ${address} | originalname: ${originalname} | Reason: ${err.message}`);
+    // });
+
+    return res.status(200).send('Image info saved to db');
   } else {
     console.log(`Image ${md5Hash} already minted`);
     return res.status(400).send('Already minted');
   }
 }
-async function saveImageWhereNeeded(address: string, md5Hash: string, buffer: any, originalname: string, mimetype: string) {
+async function saveImageWhereNeeded(address: string, md5Hash: string, buffer: any, originalname: string, mimeType: string) {
   console.log(`Minting for address ${address} started`);
 
   const stream = bufferToStream(buffer);
   const media = {
-    mimeType: 'image/jpeg',
+    mimeType,
     body: stream
   };
 
   const googleId = await GoogleDriveService.saveFile(media);
   console.log(`Google Id: ${googleId} | Hash: ${md5Hash} | Address: ${address}`);
 
-  const nftStorageToken: INFTStorageToken = await NFTStorageService.storeNFT(buffer, originalname, googleId, mimetype);
-  console.log(`NFTStorage token: ${nftStorageToken.ipnft} | Hash: ${md5Hash} | Address: ${address}`);
+  await userModel.addAnImage(address, md5Hash, googleId, 'da', 'da');
 
-  await userModel.addAnImage(address, md5Hash, googleId, nftStorageToken.ipnft, 'da');
-
-  console.log(`Image ${md5Hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Google Id: ${googleId} | Address: ${address}`);
+  console.log(`Image ${md5Hash} minted | Google Id: ${googleId} | Address: ${address}`);
 
   Lock.unlockImage(md5Hash);
 }
