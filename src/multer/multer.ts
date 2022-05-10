@@ -1,7 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 
-const DIR = './public/';
 const storage = multer.memoryStorage();
 
 export const upload = multer({
