@@ -8,7 +8,6 @@ import { Duplex } from 'stream';
 import NFTStorageService from '../services/NFTStorageService';
 import INFTStorageToken from '../domain/NFTStorageToken';
 import Lock from '../lock/Lock';
-import NftSrb from '../nftsrb/NftSrb';
 
 export default async function mint(req: MulterRequest, res: Response) {
   if (!req.file) {
@@ -53,15 +52,9 @@ async function saveImageWhereNeeded(address: string, md5Hash: string, buffer: an
   const nftStorageToken: INFTStorageToken = await NFTStorageService.storeNFT(buffer, originalname, googleId, mimetype);
   console.log(`NFTStorage token: ${nftStorageToken.ipnft} | Hash: ${md5Hash} | Address: ${address}`);
 
-  const nftsrb = new NftSrb('0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80');
-  const transactionHash = await nftsrb.mint(nftStorageToken.ipnft);
-  console.log(`Token ${nftStorageToken.ipnft} minted | Blockchain transaction hash: ${transactionHash} | Address: ${address}`);
+  await userModel.addAnImage(address, md5Hash, googleId, nftStorageToken.ipnft, 'da');
 
-  await userModel.addAnImage(address, md5Hash, googleId, nftStorageToken.ipnft, transactionHash);
-
-  console.log(
-    `Image ${md5Hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Google Id: ${googleId} | Blockchain transaction hash: ${transactionHash} | Address: ${address}`
-  );
+  console.log(`Image ${md5Hash} minted | NFTStorage token: ${nftStorageToken.ipnft} | Google Id: ${googleId} | Address: ${address}`);
 
   Lock.unlockImage(md5Hash);
 }

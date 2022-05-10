@@ -4,7 +4,6 @@ import { mongooseDb } from './db';
 import Constants from './constants/Constants';
 import { router } from './endpoints';
 import GoogleDriveService from './services/GoogleDriveService';
-import NftSrb from './nftsrb/NftSrb';
 
 export const app = express();
 const port = Number(Constants.SERVER_PORT);
