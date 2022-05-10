@@ -1,15 +1,15 @@
 export default class Lock {
-  private static lockedImages = new Set();
+  private static lockedNfts = new Set();
 
-  public static lockImage(imageHash: string): void {
-    this.lockedImages.add(imageHash);
+  public static lockNft(nftHash: string): void {
+    this.lockedNfts.add(nftHash);
   }
 
-  public static unlockImage(imageHash: string): void {
-    this.lockedImages.delete(imageHash);
+  public static unlockNft(nftHash: string): void {
+    this.lockedNfts.delete(nftHash);
   }
 
-  public static contains(imageHash: string): boolean {
-    return this.lockedImages.has(imageHash);
+  public static contains(nftHash: string): boolean {
+    return this.lockedNfts.has(nftHash);
   }
 }

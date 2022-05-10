@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
-import imageModel from './ImageModel';
-import User from './User';
+import nftModel from './NftModel';
+import User from '../../domain/IUser';
 
 const model = new Schema({
   address: String,
-  images: [imageModel]
+  nfts: [nftModel]
 });
 
 class UserModel {
@@ -18,8 +18,8 @@ class UserModel {
     return user;
   }
 
-  public async getByImage(md5Hash: string): Promise<User | null> {
-    const user = (await this.model.find({ 'images.md5Hash': { $in: md5Hash } }).exec())[0];
+  public async getByNft(md5Hash: string): Promise<User | null> {
+    const user = (await this.model.find({ 'nfts.md5Hash': { $in: md5Hash } }).exec())[0];
     return user;
   }
 
@@ -27,14 +27,8 @@ class UserModel {
     return this.model.create({ address });
   }
 
-  public async addAnImage(
-    address: string,
-    md5Hash: string,
-    googleId: string,
-    ipnft: string,
-    transactionHash: string
-  ): Promise<User | null> {
-    return this.model.updateOne({ address }, { $push: { images: { md5Hash, googleId, ipnft, transactionHash } } });
+  public async addNft(address: string, md5Hash: string, googleId: string, ipnft: string, transactionHash: string): Promise<User | null> {
+    return this.model.updateOne({ address }, { $push: { nfts: { md5Hash, googleId, ipnft, transactionHash } } });
   }
 }
 
