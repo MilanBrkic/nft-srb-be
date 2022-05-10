@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import nftModel from './NftModel';
-import User from '../../domain/IUser';
+import User from '../../domain/User';
+import Nft from '../../domain/Nft';
 
 const model = new Schema({
   address: String,
@@ -27,8 +28,8 @@ class UserModel {
     return this.model.create({ address });
   }
 
-  public async addNft(address: string, md5Hash: string, googleId: string, ipnft: string, transactionHash: string): Promise<User | null> {
-    return this.model.updateOne({ address }, { $push: { nfts: { md5Hash, googleId, ipnft, transactionHash } } });
+  public async addNft(nft: Nft): Promise<User | null> {
+    return this.model.updateOne({ address: nft.address }, { $push: { nfts: { ...nft } } });
   }
 }
 

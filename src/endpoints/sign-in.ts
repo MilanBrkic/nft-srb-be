@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import IUser from '../domain/IUser';
+import User from '../domain/User';
 import userModel from '../db/model/UserModel';
 
 export default async function signIn(req: Request, res: Response) {
   const address = req.body.accounts[0];
-  let user: IUser;
+  let user: User;
 
   if (!address) {
     res.status(404).send('No account sent');

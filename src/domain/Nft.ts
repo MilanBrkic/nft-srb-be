@@ -5,7 +5,8 @@ import IPFSService from '../services/IPFSService';
 export default class Nft {
   public ipfsUrl: string;
   public ipfsMetadata: IIPFSMetadata;
-  constructor(public md5Hash: string, public userAddress: string, public ipfsToken: string) {
+  public googleId: string;
+  constructor(public md5Hash: string, public address: string, public ipfsToken: string) {
     this.ipfsUrl = `${Constants.IPFS_BASE_URL}${ipfsToken}/metadata.json`;
   }
 
@@ -16,5 +17,14 @@ export default class Nft {
     } catch (error) {
       console.error(`No metadata from ipfs | Reason: ${error.message}`);
     }
+  }
+
+  getDto() {
+    return {
+      googleId: this.googleId,
+      image: this.ipfsMetadata.image,
+      name: this.ipfsMetadata.name,
+      description: this.ipfsMetadata.description
+    };
   }
 }

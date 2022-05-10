@@ -2,7 +2,7 @@ import { Response } from 'express';
 import crypto from 'crypto';
 import Lock from '../lock/Lock';
 import userModel from '../db/model/UserModel';
-import IUser from '../domain/IUser';
+import User from '../domain/User';
 import MulterRequest from '../multer/MulterRequest';
 
 export async function getNftStatus(req: MulterRequest, res: Response) {
@@ -13,7 +13,7 @@ export async function getNftStatus(req: MulterRequest, res: Response) {
   const { buffer } = req.file;
   const md5Hash = crypto.createHash('md5').update(buffer).digest('hex');
 
-  const user: IUser = await userModel.getByNft(md5Hash);
+  const user: User = await userModel.getByNft(md5Hash);
 
   if (!user) {
     if (Lock.contains(md5Hash)) {

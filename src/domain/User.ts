@@ -1,7 +1,7 @@
 import Nft from './Nft';
 
-interface IUser {
+class User {
   address: string;
   nfts: Nft[];
 }
-export default IUser;
+export default User;
