@@ -5,30 +5,31 @@ import userModel from '../db/User/UserModel';
 import User from '../db/User/User';
 import GoogleDriveService from '../services/GoogleDriveService';
 import { Duplex } from 'stream';
-import NFTStorageService from '../services/NFTStorageService';
-import INFTStorageToken from '../domain/NFTStorageToken';
 import Lock from '../lock/Lock';
+import Image from '../db/User/Image';
 
 export default async function mint(req: MulterRequest, res: Response) {
   if (!req.file) {
     return res.status(400).send('File not specified');
   }
 
-  const { buffer, originalname, mimetype } = req.file;
+  const { buffer, mimetype } = req.file;
+  const stream = bufferToStream(buffer);
+  const media = {
+    mimeType: mimetype,
+    body: stream
+  };
+
   const md5Hash = crypto.createHash('md5').update(buffer).digest('hex');
 
   const user: User = await userModel.getByImage(md5Hash);
 
   if (!user) {
-    const address = req.body.account;
-    const ipnft = req.body.ipnft;
-    const url = req.body.url;
+    const image = new Image(md5Hash, req.body.account, req.body.ipnft);
+    await image.enrichWithMetadata();
 
-    console.log(ipnft);
-    console.log(url);
-    // saveImageWhereNeeded(address, md5Hash, buffer, originalname, mimetype).catch((err) => {
-    //   console.error(`Error in saveImageWhereNeeded | Address: ${address} | originalname: ${originalname} | Reason: ${err.message}`);
-    // });
+    console.log(`Image: ${JSON.stringify(image)}`);
+    // await saveImageWhereNeeded(image, media);
 
     return res.status(200).send('Image info saved to db');
   } else {
@@ -36,27 +37,21 @@ export default async function mint(req: MulterRequest, res: Response) {
     return res.status(400).send('Already minted');
   }
 }
-async function saveImageWhereNeeded(address: string, md5Hash: string, buffer: any, originalname: string, mimeType: string) {
-  console.log(`Minting for address ${address} started`);
-
-  const stream = bufferToStream(buffer);
-  const media = {
-    mimeType,
-    body: stream
-  };
+async function saveImageWhereNeeded(image: Image, media: { mimeType: string; body: any }) {
+  console.log(`Minting started | Address:  ${image.userAddress} | Hash: ${image.md5Hash}`);
 
   const googleId = await GoogleDriveService.saveFile(media);
-  console.log(`Google Id: ${googleId} | Hash: ${md5Hash} | Address: ${address}`);
+  console.log(`Google Id: ${googleId} | Hash: ${image.md5Hash} | Address: ${image.userAddress}`);
 
-  await userModel.addAnImage(address, md5Hash, googleId, 'da', 'da');
+  // await userModel.addAnImage(image.userAddress, image.md5Hash, googleId, 'da', 'da');
 
-  console.log(`Image ${md5Hash} minted | Google Id: ${googleId} | Address: ${address}`);
+  console.log(`Image ${image.md5Hash} minted | Google Id: ${googleId} | Address: ${image.userAddress}`);
 
-  Lock.unlockImage(md5Hash);
+  Lock.unlockImage(image.md5Hash);
 }
-function bufferToStream(myBuuffer) {
+function bufferToStream(myBuffer: any) {
   let tmp = new Duplex();
-  tmp.push(myBuuffer);
+  tmp.push(myBuffer);
   tmp.push(null);
   return tmp;
 }
