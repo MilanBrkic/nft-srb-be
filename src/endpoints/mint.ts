@@ -25,7 +25,7 @@ export default async function mint(req: MulterRequest, res: Response) {
   const user: User = await userModel.getByNft(md5Hash);
 
   if (!user) {
-    const nft = new Nft(md5Hash, req.body.account, req.body.ipnft);
+    const nft = new Nft(md5Hash, req.body.account, req.body.ipnft, req.body.price);
     console.log(`Enriching nft ${md5Hash} with metadata...`);
     await nft.enrichWithMetadata();
     console.log(`Nft ${md5Hash} enriched`);

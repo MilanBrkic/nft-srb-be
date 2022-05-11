@@ -6,7 +6,13 @@ export default class Nft {
   public ipfsUrl: string;
   public ipfsMetadata: IIPFSMetadata;
   public googleId: string;
-  constructor(public md5Hash: string, public address: string, public ipfsToken: string) {
+  constructor(
+    public md5Hash: string,
+    public address: string,
+    public ipfsToken: string,
+    public price: number,
+    public forSale: boolean = true
+  ) {
     this.ipfsUrl = `${Constants.IPFS_BASE_URL}${ipfsToken}/metadata.json`;
   }
 
