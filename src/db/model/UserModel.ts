@@ -14,12 +14,12 @@ class UserModel {
     this.model = mongoose.model('users', userSchema);
   }
 
-  public async findByAddress(address: string): Promise<User | null> {
+  public async findByAddress(address: string): Promise<any | null> {
     const user = (await this.model.find({ address }).exec())[0];
     return user;
   }
 
-  public async getByNft(md5Hash: string): Promise<User | null> {
+  public async getByNft(md5Hash: string): Promise<any | null> {
     const user = (await this.model.find({ 'nfts.md5Hash': { $in: md5Hash } }).exec())[0];
     return user;
   }
@@ -28,8 +28,12 @@ class UserModel {
     return this.model.create({ address });
   }
 
-  public async addNft(nft: Nft): Promise<User | null> {
-    return this.model.updateOne({ address: nft.address }, { $push: { nfts: { ...nft } } });
+  public async addNft(address: string, nft: Nft): Promise<User | null> {
+    return this.model.updateOne({ address }, { $push: { nfts: { ...nft } } });
+  }
+
+  public async removeNft(address: string, md5Hash: string) {
+    return this.model.updateOne({ address }, { $pull: { nfts: { md5Hash } } });
   }
 }
 

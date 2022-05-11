@@ -5,3 +5,4 @@ src/nft-smart-contract/*
 
 token.json
 .env
+/.vscode 

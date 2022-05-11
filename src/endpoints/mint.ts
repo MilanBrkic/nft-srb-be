@@ -42,7 +42,7 @@ async function saveNftWhereNeeded(nft: Nft, media: { mimeType: string; body: any
   nft.googleId = googleId;
   console.log(`Google Id: ${googleId} | Hash: ${nft.md5Hash} | Address: ${nft.address}`);
 
-  await userModel.addNft(nft);
+  await userModel.addNft(nft.address, nft);
 
   Lock.unlockNft(nft.md5Hash);
   console.log(`Nft: ${nft.md5Hash} saved and unlocked | Google Id: ${googleId} | Address: ${nft.address}`);
