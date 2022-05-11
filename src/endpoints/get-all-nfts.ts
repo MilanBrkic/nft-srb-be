@@ -11,10 +11,13 @@ export default async function getAllNfts(req: Request, res: Response) {
   }
   const response = user.nfts.map((nft) => {
     return {
+      md5Hash: nft.md5Hash,
       googleId: nft.googleId,
       image: nft.ipfsMetadata.image,
       name: nft.ipfsMetadata.name,
-      description: nft.ipfsMetadata.description
+      description: nft.ipfsMetadata.description,
+      price: nft.price,
+      forSale: nft.forSale
     };
   });
 

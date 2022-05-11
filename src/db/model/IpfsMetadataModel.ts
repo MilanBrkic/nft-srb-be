@@ -1,8 +1,7 @@
 import { Schema } from 'mongoose';
 
-const ipfsMetadataModel = new Schema({
+export const ipfsMetadataSchema = new Schema({
   name: String,
   description: String,
   image: String
 });
-export default ipfsMetadataModel;

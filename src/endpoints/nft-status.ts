@@ -5,7 +5,7 @@ import userModel from '../db/model/UserModel';
 import User from '../domain/User';
 import MulterRequest from '../multer/MulterRequest';
 
-export async function getNftStatus(req: MulterRequest, res: Response) {
+export default async function getNftStatus(req: MulterRequest, res: Response) {
   if (!req.file) {
     return res.status(400).send('File not specified');
   }

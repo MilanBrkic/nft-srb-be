@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
-import nftModel from './NftModel';
+import { nftSchema } from './NftModel';
 import User from '../../domain/User';
 import Nft from '../../domain/Nft';
 
-const model = new Schema({
+const userSchema = new Schema({
   address: String,
-  nfts: [nftModel]
+  nfts: [nftSchema]
 });
 
 class UserModel {
   private model;
   constructor() {
-    this.model = mongoose.model('users', model);
+    this.model = mongoose.model('users', userSchema);
   }
 
   public async findByAddress(address: string): Promise<User | null> {

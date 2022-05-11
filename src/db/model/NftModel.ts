@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
-import ipfsMetadataModel from './IpfsMetadataModel';
+import { ipfsMetadataSchema } from './IpfsMetadataModel';
 
-const nftModel = new Schema({
+export const nftSchema = new Schema({
   md5Hash: String,
   address: String,
   googleId: String,
@@ -9,6 +9,5 @@ const nftModel = new Schema({
   ipfsUrl: String,
   price: Number,
   forSale: Boolean,
-  ipfsMetadata: ipfsMetadataModel
+  ipfsMetadata: ipfsMetadataSchema
 });
-export default nftModel;
