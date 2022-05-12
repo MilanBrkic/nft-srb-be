@@ -25,12 +25,15 @@ export default class Nft {
     }
   }
 
-  getDto() {
+  public static getDto(nft: Nft) {
     return {
-      googleId: this.googleId,
-      image: this.ipfsMetadata.image,
-      name: this.ipfsMetadata.name,
-      description: this.ipfsMetadata.description
+      md5Hash: nft.md5Hash,
+      googleId: nft.googleId,
+      image: nft.ipfsMetadata.image,
+      name: nft.ipfsMetadata.name,
+      description: nft.ipfsMetadata.description,
+      price: nft.price,
+      forSale: nft.forSale
     };
   }
 }

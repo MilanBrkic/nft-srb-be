@@ -28,6 +28,9 @@ class UserModel {
     return this.model.create({ address });
   }
 
+  public async getAllExcept(address: string): Promise<User[]> {
+    return this.model.find({ address: { $ne: address } }).exec();
+  }
   public async addNft(address: string, nft: Nft): Promise<User | null> {
     return this.model.updateOne({ address }, { $push: { nfts: { ...nft } } });
   }

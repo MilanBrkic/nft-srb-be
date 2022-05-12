@@ -7,11 +7,14 @@ import updateNft from './update-nft';
 import buyNft from './buy-nft';
 import getAllNfts from './get-all-nfts';
 import unlockNft from './unlock-nft';
+import getMarketplace from './get-marketplace';
 export const router = Router();
 
 router.post('/sign-in', signIn);
 
 router.post('/mint', upload.single('image'), mint);
+
+router.get('/marketplace/:address', getMarketplace);
 
 router.post('/nft/status', upload.single('image'), getNftStatus);
 
