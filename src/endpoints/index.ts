@@ -6,7 +6,7 @@ import getNftStatus from './nft-status';
 import updateNft from './update-nft';
 import buyNft from './buy-nft';
 import getAllNfts from './get-all-nfts';
-
+import unlockNft from './unlock-nft';
 export const router = Router();
 
 router.post('/sign-in', signIn);
@@ -14,6 +14,8 @@ router.post('/sign-in', signIn);
 router.post('/mint', upload.single('image'), mint);
 
 router.post('/nft/status', upload.single('image'), getNftStatus);
+
+router.post('/nft/unlock', upload.single('image'), unlockNft);
 
 router.patch('/nft', updateNft);
 
