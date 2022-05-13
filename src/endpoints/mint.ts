@@ -7,6 +7,7 @@ import GoogleDriveService from '../services/GoogleDriveService';
 import { Duplex } from 'stream';
 import Lock from '../lock/Lock';
 import Nft from '../domain/Nft';
+import JWTService from '../services/JWTService';
 
 export default async function mint(req: MulterRequest, res: Response) {
   if (!req.file) {
@@ -25,7 +26,7 @@ export default async function mint(req: MulterRequest, res: Response) {
   const user: User = await userModel.getByNft(md5Hash);
 
   if (!user) {
-    const nft = new Nft(md5Hash, req.body.account, req.body.ipnft, req.body.price);
+    const nft = new Nft(md5Hash, getAddress(req.headers.authorization), req.body.ipnft, req.body.price);
     console.log(`Enriching nft ${md5Hash} with metadata...`);
     await nft.enrichWithMetadata();
     console.log(`Nft ${md5Hash} enriched`);
@@ -52,4 +53,9 @@ function bufferToStream(myBuffer: any) {
   tmp.push(myBuffer);
   tmp.push(null);
   return tmp;
+}
+
+function getAddress(auth: string) {
+  const bearer = auth.split(' ')[1];
+  return (JWTService.verify(bearer) as any).address;
 }

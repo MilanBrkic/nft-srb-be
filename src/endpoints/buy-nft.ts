@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import userModel from '../db/model/UserModel';
 import Nft from '../domain/Nft';
 export default async function updateNft(req: Request, res: Response) {
-  const buyerAddress = req.body.buyer;
+  const buyerAddress = req.body.address;
   const nftHash = req.body.md5Hash;
   let buyer: any;
   let seller: any;

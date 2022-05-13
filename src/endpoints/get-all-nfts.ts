@@ -4,7 +4,7 @@ import userModel from '../db/model/UserModel';
 import Nft from '../domain/Nft';
 
 export default async function getAllNfts(req: Request, res: Response) {
-  const address = req.params.address;
+  const address = req.body.address;
   const user: User = await userModel.findByAddress(address);
 
   if (!user) {

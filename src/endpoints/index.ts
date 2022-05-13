@@ -14,7 +14,7 @@ router.post('/auth', authenticate);
 
 router.post('/mint', upload.single('image'), mint);
 
-router.get('/marketplace/:address', getMarketplace);
+router.get('/marketplace', getMarketplace);
 
 router.post('/nft/status', upload.single('image'), getNftStatus);
 
@@ -24,4 +24,4 @@ router.patch('/nft', updateNft);
 
 router.post('/buy', buyNft);
 
-router.get('/user/:address/nfts', getAllNfts);
+router.get('/user/nfts', getAllNfts);

@@ -5,6 +5,7 @@ export default async function updateNft(req: Request, res: Response) {
   const md5Hash = req.body.md5Hash;
   const price = req.body.price;
   const forSale = req.body.forSale;
+  const address = req.body.address;
   let nft: Nft;
 
   if (!md5Hash) return res.status(400).send('md5Hash not provided');
@@ -12,6 +13,8 @@ export default async function updateNft(req: Request, res: Response) {
   const user: any = await userModel.getByNft(md5Hash);
 
   if (!user) return res.status(404).send('Nft not found');
+
+  if (user.address !== address) return res.status(401).send("Can't update other users Nfts");
 
   nft = user.nfts.find((nft: Nft) => nft.md5Hash === md5Hash);
 
