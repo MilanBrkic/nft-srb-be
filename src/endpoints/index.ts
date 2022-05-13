@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { upload } from '../multer/multer';
-import signIn from './sign-in';
+import authenticate from './authenticate';
 import mint from './mint';
 import getNftStatus from './nft-status';
 import updateNft from './update-nft';
@@ -10,7 +10,7 @@ import unlockNft from './unlock-nft';
 import getMarketplace from './get-marketplace';
 export const router = Router();
 
-router.post('/sign-in', signIn);
+router.post('/auth', authenticate);
 
 router.post('/mint', upload.single('image'), mint);
 
