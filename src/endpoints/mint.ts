@@ -30,7 +30,13 @@ export default async function mint(req: MulterRequest, res: Response) {
     console.log(`Enriching nft ${md5Hash} with metadata...`);
     await nft.enrichWithMetadata();
     console.log(`Nft ${md5Hash} enriched`);
-    await saveNftWhereNeeded(nft, media);
+
+    try {
+      await saveNftWhereNeeded(nft, media);
+    } catch (error) {
+      console.log(`Error in saveNftWhereNeeded | hash: ${nft.md5Hash} | Address: ${nft.address} | Reason: ${error.message}`);
+      return res.status(500).send();
+    }
 
     return res.status(200).send('Nft info saved to db');
   } else {
