@@ -8,6 +8,6 @@ class Constants {
   public static readonly SMART_CONTRACT_URL = process.env.SMART_CONTRACT_URL ?? 'http://127.0.0.1:8545/';
   public static readonly GOOGLE_DRIVE_URL = 'https://drive.google.com/uc?id=';
   public static readonly IPFS_BASE_URL = 'https://ipfs.io/ipfs/';
-  public static JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+  public static readonly JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 }
 export default Constants;

@@ -28,7 +28,7 @@ export default class Nft {
   public static getDto(nft: Nft) {
     return {
       md5Hash: nft.md5Hash,
-      googleId: nft.googleId,
+      googleId: Constants.GOOGLE_DRIVE_URL + nft.googleId,
       image: nft.ipfsMetadata.image,
       name: nft.ipfsMetadata.name,
       description: nft.ipfsMetadata.description,
