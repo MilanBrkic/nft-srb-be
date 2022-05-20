@@ -1,9 +1,9 @@
-import { Event } from 'ethers';
+import { BigNumber, Event } from 'ethers';
 import userModel from '../db/model/UserModel';
 import { sleep } from '../helper/helper';
 import NftSrb from '../nftsrb/NftSrb';
 
-export const mintEventListener = async (tokenId: any, tokenURI: string, minter: string, event: Event) => {
+export const mintEventListener = async (tokenId: BigNumber, tokenURI: string, minter: string, event: Event) => {
   if (event.blockNumber <= NftSrb.startBlockNumber) return;
   console.log(`Mint event received | tokenId: ${tokenId._hex}`);
 
