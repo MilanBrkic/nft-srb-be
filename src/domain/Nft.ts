@@ -6,6 +6,7 @@ export default class Nft {
   public ipfsUrl: string;
   public ipfsMetadata: IIPFSMetadata;
   public googleId: string;
+  public tokenId: number | null = null;
   constructor(
     public md5Hash: string,
     public address: string,
@@ -33,7 +34,8 @@ export default class Nft {
       name: nft.ipfsMetadata.name,
       description: nft.ipfsMetadata.description,
       price: nft.price,
-      forSale: nft.forSale
+      forSale: nft.forSale,
+      tokenId: nft.tokenId
     };
   }
 }

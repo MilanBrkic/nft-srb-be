@@ -10,7 +10,7 @@ export default async function getAllNfts(req: Request, res: Response) {
   if (!user) {
     return res.status(400).send('User does not exist');
   }
-  const response = user.nfts.map((nft) => Nft.getDto(nft));
+  const response = user.nfts.filter((nft) => nft.tokenId).map((nft) => Nft.getDto(nft));
 
   return res.status(200).send(response);
 }

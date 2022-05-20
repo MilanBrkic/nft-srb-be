@@ -38,6 +38,11 @@ class UserModel {
   public async removeNft(address: string, md5Hash: string) {
     return this.model.updateOne({ address }, { $pull: { nfts: { md5Hash } } });
   }
+
+  public async getByIpfsToken(ipfsToken: string) {
+    const user = (await this.model.find({ 'nfts.ipfsToken': { $in: ipfsToken } }).exec())[0];
+    return user;
+  }
 }
 
 const userModel = new UserModel();

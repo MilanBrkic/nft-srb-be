@@ -9,5 +9,6 @@ export const nftSchema = new Schema({
   ipfsUrl: String,
   price: Number,
   forSale: Boolean,
+  tokenId: Number,
   ipfsMetadata: ipfsMetadataSchema
 });

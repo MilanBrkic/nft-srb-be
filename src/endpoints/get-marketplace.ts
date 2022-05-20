@@ -11,7 +11,7 @@ export default async function getAllNfts(req: Request, res: Response) {
   const nfts = [];
 
   allUsers.forEach((user) => {
-    nfts.push(...user.nfts.filter((nft) => nft.forSale === true).map((nft) => Nft.getDto(nft)));
+    nfts.push(...user.nfts.filter((nft) => nft.forSale === true && nft.tokenId).map((nft) => Nft.getDto(nft)));
   });
 
   return res.status(200).send(nfts);
