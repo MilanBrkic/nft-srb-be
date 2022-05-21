@@ -43,6 +43,11 @@ class UserModel {
     const user = (await this.model.find({ 'nfts.ipfsToken': { $in: ipfsToken } }).exec())[0];
     return user;
   }
+
+  public async getByTokenId(tokenId: number) {
+    const user = (await this.model.find({ 'nfts.tokenId': { $in: tokenId } }).exec())[0];
+    return user;
+  }
 }
 
 const userModel = new UserModel();
