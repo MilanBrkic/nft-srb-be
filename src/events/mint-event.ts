@@ -4,18 +4,21 @@ import { sleep } from '../helper/helper';
 import NftSrb from '../nftsrb/NftSrb';
 
 export const mintEventListener = async (tokenId: BigNumber, tokenURI: string, minter: string, event: Event) => {
-  if (event.blockNumber <= NftSrb.startBlockNumber) return;
+  if (event.blockNumber <= NftSrb.startBlockNumber) {
+    return;
+  }
   console.log(`Mint event received | tokenId: ${tokenId._hex}`);
 
   minter = minter.toLowerCase();
   let count = 0;
+  const sleepTime = 3000;
 
   while (count < 20) {
     const userByAddress = await userModel.findByAddress(minter);
     if (!userByAddress) {
       count++;
       console.log(`No user found for address: ${minter}, timeouting ${count}. time`);
-      await sleep(1000);
+      await sleep(sleepTime);
       continue;
     }
 
@@ -25,7 +28,7 @@ export const mintEventListener = async (tokenId: BigNumber, tokenURI: string, mi
     if (!userByTokenUri) {
       count++;
       console.log(`No user found for tokenURI: ${tokenId}, timeouting ${count}. time`);
-      await sleep(1000);
+      await sleep(sleepTime);
       continue;
     }
 
