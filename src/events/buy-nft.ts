@@ -36,17 +36,26 @@ export const buyEventListener = async (sellerAddress: string, buyerAddress: stri
   let nftFromDb: Nft;
   for (let i = 0; i < seller.nfts.length; i++) {
     if (seller.nfts[i].tokenId && seller.nfts[i].tokenId === parsedTokendId) {
-      seller.nfts[i].forSale = false;
       nftFromDb = seller.nfts[i];
+      nftFromDb.forSale = false;
+      nftFromDb.address = buyerAddress;
+      break;
     }
   }
 
   const session = await mongooseDb.mongoose.startSession();
   try {
-    await Promise.all([userModel.addNft(buyerAddress, nftFromDb, session), userModel.removeNft(sellerAddress, nftFromDb.md5Hash, session)]);
+    session.startTransaction();
+    await userModel.removeNft(sellerAddress, nftFromDb.md5Hash, session);
+    await userModel.addNft(buyerAddress, nftFromDb, session);
+    await session.commitTransaction();
   } catch (error) {
     console.error(`Error in Promise.all of saving users | Reason: ${error.message}`);
-    await session.abortTransaction();
+    try {
+      await session.abortTransaction();
+    } catch (error) {
+      console.error('error aborting transaction');
+    }
     return;
   }
 
