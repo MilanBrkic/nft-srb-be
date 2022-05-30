@@ -5,5 +5,8 @@ src/nft-smart-contract/*
 
 token.json
 .env
+env
+env.prod
+.env.prod
 /.vscode
 /src/abi
