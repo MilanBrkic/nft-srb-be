@@ -1,4 +1,5 @@
 import { BigNumber, Event } from 'ethers';
+import { mongooseDb } from '../db';
 import userModel from '../db/model/UserModel';
 import Nft from '../domain/Nft';
 import NftSrb from '../nftsrb/NftSrb';
@@ -40,10 +41,12 @@ export const buyEventListener = async (sellerAddress: string, buyerAddress: stri
     }
   }
 
+  const session = await mongooseDb.mongoose.startSession();
   try {
-    await Promise.all([userModel.addNft(buyerAddress, nftFromDb), userModel.removeNft(seller.address, nftFromDb.md5Hash)]);
+    await Promise.all([userModel.addNft(buyerAddress, nftFromDb, session), userModel.removeNft(sellerAddress, nftFromDb.md5Hash, session)]);
   } catch (error) {
     console.error(`Error in Promise.all of saving users | Reason: ${error.message}`);
+    await session.abortTransaction();
     return;
   }
 

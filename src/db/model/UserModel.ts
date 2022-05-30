@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import { nftSchema } from './NftModel';
 import User from '../../domain/User';
 import Nft from '../../domain/Nft';
-
+import { ClientSession } from 'mongoose';
 const userSchema = new Schema({
   address: String,
   nfts: [nftSchema]
@@ -31,12 +31,12 @@ class UserModel {
   public async getAllExcept(address: string): Promise<User[]> {
     return this.model.find({ address: { $ne: address } }).exec();
   }
-  public async addNft(address: string, nft: Nft): Promise<User | null> {
-    return this.model.updateOne({ address }, { $push: { nfts: { ...nft } } });
+  public async addNft(address: string, nft: Nft, session?: ClientSession): Promise<User | null> {
+    return this.model.updateOne({ address }, { $push: { nfts: { ...nft } } }, { session });
   }
 
-  public async removeNft(address: string, md5Hash: string) {
-    return this.model.updateOne({ address }, { $pull: { nfts: { md5Hash } } });
+  public async removeNft(address: string, md5Hash: string, session?: ClientSession) {
+    return this.model.updateOne({ address }, { $pull: { nfts: { md5Hash } } }, { session });
   }
 
   public async getByIpfsToken(ipfsToken: string) {
