@@ -4,6 +4,7 @@ import { Contract } from 'ethers';
 import nftSrbJson from '../abi/NftSrb.json';
 import { mintEventListener } from '../events/mint-event';
 import { nftChangedEventListener } from '../events/nft-changed-event';
+import { buyEventListener } from '../events/buy-nft';
 
 export default class NftSrb {
   public static startBlockNumber: number;
@@ -20,9 +21,7 @@ export default class NftSrb {
     contract.on('Mint', mintEventListener);
 
     contract.on('NftChanged', nftChangedEventListener);
-    contract.on('TransferNftSrb', (from, to, tokenId, tokenURI) => {
-      console.log(from, to, tokenId, tokenURI);
-    });
+    contract.on('TransferNftSrb', buyEventListener);
 
     console.log('Subscribed to smart contract events...');
   }
