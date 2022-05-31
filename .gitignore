@@ -9,4 +9,3 @@ env
 env.prod
 .env.prod
 /.vscode
-/src/abi
