@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run 'tsc' && node build/index.js",
-    "tsc":"tsc",  
+    "start-local": "npx tsc && node build/index.js",
+    "start": "node build/index.js",
+    "postinstall":"tsc",  
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "repository": {
