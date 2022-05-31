@@ -1,5 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config();
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 class Constants {
   public static readonly MONGO_BASE_CONNECTION_URL = process.env.MONGO_BASE_CONNECTION_URL ?? 'mongodb://localhost:27017/nft-srb';
   public static readonly NFT_SRB_DATABASE = 'nft-srb';
