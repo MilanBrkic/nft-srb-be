@@ -1,6 +1,7 @@
 import fs from 'fs';
 import readline from 'readline';
 import { google, drive_v3 } from 'googleapis';
+import Constants from '../constants/Constants';
 
 export default class GoogleDriveService {
   private static SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -21,12 +22,13 @@ export default class GoogleDriveService {
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
     // Check if we have previously stored a token.
-    fs.readFile(this.TOKEN_PATH, (err, token) => {
-      if (err) return this.getAccessToken(oAuth2Client);
-      oAuth2Client.setCredentials(JSON.parse(token.toString()));
+    if (!Constants.HAVE_TOKEN) {
+      return this.getAccessToken(oAuth2Client);
+    } else {
+      oAuth2Client.setCredentials(Constants.GOOGLE_TOKEN);
       this.drive = google.drive({ version: 'v3', auth: oAuth2Client });
       console.log('Google Drive initialized');
-    });
+    }
   }
 
   /**
