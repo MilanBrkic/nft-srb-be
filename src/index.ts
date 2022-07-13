@@ -8,7 +8,7 @@ import decodeBearerToken from './endpoints/middleware';
 import NftSrb from './nftsrb/NftSrb';
 
 export const app = express();
-const port = Number(Constants.SERVER_PORT);
+const port = Constants.SERVER_PORT;
 
 app.use(cors());
 app.use(express.json());
